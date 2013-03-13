@@ -9,7 +9,7 @@ Edit your project's `composer.json` file to require `jonphipps/idehelpers`.
 
     "require": {
 		"laravel/framework": "4.0.*",
-		"jonphipps/idehelpers": "dev-master"
+		"jonphipps/idehelper": "dev-master"
 	}
 
 Update Composer from the Terminal:
