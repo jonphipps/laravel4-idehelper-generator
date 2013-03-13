@@ -1,0 +1,26 @@
+{
+    "name": "JonPhipps/IdeHelper",
+    "description": "Generate a file to help IDE's like PHPStorm, NetBeans, or Sublime Text with code completion for Laravel's static facades",
+    "keywords": ["laravel","laravel4","illuminate","generator"],
+    "authors": [
+        {
+            "name": "Jon Phipps",
+            "email": "jphipps@madcreek.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x",
+        "symfony/console": "2.2.*",
+        "phpdocumentor/reflection": "dev-master"
+    },
+    "autoload": {
+        "classmap": [
+            "src/commands"
+        ],
+        "psr-0": {
+            "JonPhipps\\IdeHelper": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
