@@ -1,5 +1,5 @@
 {
-    "name": "JonPhipps/IdeHelper",
+    "name": "jonphipps/idehelper",
     "description": "Generate a file to help IDE's like PHPStorm, NetBeans, or Sublime Text with code completion for Laravel's static facades",
     "keywords": ["laravel","laravel4","illuminate","generator"],
     "authors": [
