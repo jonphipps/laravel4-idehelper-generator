@@ -34,3 +34,10 @@ The file _will_ contain errors that reflect any errors in the Laravel documentat
 
 This has not been fully tested, so issues and pull requests are welcome.
 
+## How it works
+
+If you're curious, it reads the Laravel config file to get a list of the aliases -- it will do all of the aliases listed there. It then uses the alias to resolve the façade and retun the class represented by the façade. The class is passed to both the PHP ReflectionClass and PHP Documentor's Reflection class.
+
+These two methods of reflection get the method parameters as represented in the code as well as the documentation for the method, using both to build a more complete picture of the methods, parameters, and their defaults.
+
+
