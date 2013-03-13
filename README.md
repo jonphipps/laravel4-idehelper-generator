@@ -1,7 +1,7 @@
 laravel4-idehelper-generator
 ============================
 
-Generates a helper file to assist with IDEs with code completion for Laravel 4
+Generates a helper file to assist with IDEs with code completion for Laravel 4 in PHPStorm and Sublime Text 2.
 
 ## Installation
 
