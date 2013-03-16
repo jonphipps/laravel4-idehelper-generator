@@ -73,20 +73,20 @@ EOD;
 		$providers['Redis']     = 'Illuminate\Redis\Database';
 		$providers['Validator'] = 'Illuminate\Validation\Validator';
 
-		//we need an instance of the app
-		//$laravel = $this->laravel;
-
 		//this is the main parser
 		//it tries to find a class to reflect, then gets the public properties, gets the public methods
 		//formats each property and method for output as a docblock
 		//extends the reflected class with the alias, repeats for each alias,
 		//and writes it to a file, defaulting to the root Laravel 'app' directory
-		foreach ($aliases as $alias => $value) {
+		foreach ($aliases as $alias => $facade) {
+			$aliasDescription = "";
 			try {
 				if (isset($providers[$alias])) {
 					$classReflect = new  \ReflectionClass($providers[$alias]);
+					$aliasDescription = "a factory that provides ";
 					//is the alias an instance of façade?
 				} elseif (method_exists($app[$alias], 'getFacadeRoot')) {
+					$aliasDescription = "a facade that provides ";
 					$classReflect = new \ReflectionClass(get_class($app[$alias]::getFacadeRoot()));
 					//maybe it's just a class
 				} else {
@@ -99,7 +99,6 @@ EOD;
 
 			//get the public properties
 			$propertySignatures = array();
-			$publicProperties = $classReflect->getProperties(\ReflectionMethod::IS_PUBLIC);
 			$publicProperties = $classReflect->getProperties(\ReflectionMethod::IS_PUBLIC);
 			$propertyValues   = $classReflect->getDefaultProperties();
 			foreach ($publicProperties as $property) {
@@ -196,13 +195,14 @@ EOD;
 			//start building the output
 			//=========================
 			ksort($methodSignatures);
-			$str .= "/**\n";
+
+			//initial string for class
+			$str .= "/** '" . $alias . "::' aliases $aliasDescription'" . $classReflect->getName() . "'\n";
 
 			//output the public properties
 			if (isset($propertySignatures))
 			{
 				ksort($propertySignatures);
-
 				foreach ($propertySignatures as $name => $property) {
 					$default = '';
 					//if there's a 'value' it's the default value
@@ -211,7 +211,7 @@ EOD;
 						$default = " = " . $default;
 					}
 
-					$str .= " * @var  static  " . $property['type'] . "  " . $name . $default . "  " .
+					$str .= " * @var  " . $property['type'] . "  $" . $name . $default . "    " .
 					        $property['description'] . "\n";
 				}
 			}//foreach $propertySignatures
@@ -226,7 +226,7 @@ EOD;
 
 			//output the public methods
 			foreach ($methodSignatures as $name => $method) {
-				$str .= " * @method  static  " . str_pad($method['return'], $longest) . "  " . $name . "( ";
+				$str .= " * @method  static  " . str_pad($method['return'], $longest) . "  " . $name . "(";
 
 				//output method parameters, if any
 				if (isset($method['params'])) {
@@ -264,12 +264,12 @@ EOD;
 				}//if (isset($method['params'])
 
 				//add a description
-				$str .= ")" . "  " . $method['description'] . "\n";
+				$str .= ")" . "    " . $method['description'] . "\n";
 
 			}//foreach $methodSignatures
 
 			//add the class we're extending
-			$str .= "*/\nclass " . $alias . " extends " . $classReflect->getName() . " {}\n\n";
+			$str .= "*/\nclass " . $alias . " extends " . $facade . " {}\n\n";
 
 		}//foreach $aliases
 
