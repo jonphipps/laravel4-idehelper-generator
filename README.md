@@ -1,32 +1,43 @@
 laravel4-idehelper-generator
 ============================
 
-Generates a helper file to assist with IDEs with code completion for Laravel 4 in PHPStorm.
+Generates a helper file to assist with IDEs with code completion for Laravel 4 in PHPStorm, SublimeText 2, NetBeans (not tested), and maybe other dynamic codeintel IDEs.
+
+It has the desirable side-effect of taking a snapshot of the Laravel 4 API every time it's run and I'm finding it useful to be able to keep up with the day-to-day changes as Laravel 4 matures. I have it under source control and GIT gives me a nice diff showing what's changed.
 
 There's an example in the examples folder.
 
 ## Installation
 
-Edit your project's `composer.json` file to require `jonphipps/idehelpers`.
+Add it to the ```require-dev``` section using Composer from the command line:
 
-    "require": {
-		"laravel/framework": "4.0.*",
-		"jonphipps/idehelper": "dev-master"
-	}
+	composer require jonphipps/idehelper:dev-master --dev
 
-Update Composer from the Terminal:
+I'm also running it as a post-update command (it's _very_ fast), so the helper file gets updated every time I run ```composer update``` and this keeps the IDE always in sync with the latest Laravel API.
+```json
+   "scripts":{
+        "post-update-cmd":[
+            "php artisan idehelper:generate"
+        ]
+    }
+```    
 
-    composer update
-
-And finally add the service provider to the providers array in `app/config/app.php`.
+Edit `app/config/app.php` and add the service provider to the ```providers``` array.
 
     'JonPhipps\IdeHelper\IdeHelperServiceProvider'
 
+And finally, update Composer (if you're running the latest Composer --dev is the default):
+```bash
+    composer update --dev
+```
+
 ## Usage
 
-Run the `artisan idehelper:generate` command from the Terminal.
+Install it as a post-update command as above and let it do its thing. Or run `php artisan idehelper:generate` from the command line in Terminal:
 
     php artisan idehelper:generate
+
+It takes about 2 seconds to run on my machine.
 
 If you get a PDO error:
 ```bash
@@ -49,4 +60,4 @@ If you're curious, it reads the Laravel config file to get a list of the aliases
 
 These two methods of reflection get the method parameters as represented in the code as well as the documentation for the method, using both to build a more complete picture of the methods, parameters, and their defaults.
 
-
+Comments, Pull Requests, and Issues are more than welcome -- I'm not at all sure I'm doing this right.
