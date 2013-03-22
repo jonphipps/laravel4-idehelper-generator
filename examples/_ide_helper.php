@@ -21,7 +21,7 @@
  * @method  static  mixed                                       build(string $concrete, array $parameters = array())    Instantiate a concrete instance of the given type.
  * @method  static  void                                        close(\Closure $callback)    Register a "close" application filter.
  * @method  static  string                                      detectEnvironment(array $environments)    Detect the application's current environment.
- * @method  static  \Symfony\Component\HttpFoundation\Response  dispatch(\Illuminate\Foundation\Request $request)    Handle the given request and get the response.
+ * @method  static  \Symfony\Component\HttpFoundation\Response  dispatch(\Illuminate\Http\Request $request)    Handle the given request and get the response.
  * @method  static  string                                      environment()    Get the current application environment.
  * @method  static  void                                        error(\Closure $callback)    Register an application error handler.
  * @method  static  void                                        extend(string $abstract, \Closure $closure)    "Extend" an abstract type in the container.
@@ -30,7 +30,7 @@
  * @method  static  array                                       getBindings()    Get the container's bindings.
  * @method  static  string                                      getBootstrapFile()    Get the application bootstrap file.
  * @method  static  array                                       getLoadedProviders()    Get the service providers that have been loaded.
- * @method  static  \Symfony\Component\HttpFoundation\Response  handle(\Illuminate\Foundation\Request $request, int $type = "1", bool $catch = true)    Handle the given request and get the response.
+ * @method  static  \Symfony\Component\HttpFoundation\Response  handle(\Illuminate\Http\Request $request, int $type = "1", bool $catch = true)    Handle the given request and get the response.
  * @method  static  void                                        instance(string $abstract, mixed $instance)    Register an existing instance as shared in the container.
  * @method  static  void                                        loadDeferredProviders()    Load and boot all of the remaining deferred providers.
  * @method  static  mixed                                       make(string $abstract, array $parameters = array())    Resolve the given type from the container.
@@ -39,8 +39,8 @@
  * @method  static  mixed                                       offsetGet(string $key)    Get the value at a given offset.
  * @method  static  void                                        offsetSet(string $key, mixed $value)    Set the value at a given offset.
  * @method  static  void                                        offsetUnset(string $key)    Unset the value at a given offset.
- * @method  static  \Illuminate\Foundation\Request              prepareRequest(\Illuminate\Foundation\Request $request)    Prepare the request by injecting any services.
- * @method  static  \Symfony\Component\HttpFoundation\Response  prepareResponse(mixed $value, \Illuminate\Foundation\Request $request)    Prepare the given value as a Response object.
+ * @method  static  \Illuminate\Http\Request                    prepareRequest(\Illuminate\Http\Request $request)    Prepare the request by injecting any services.
+ * @method  static  \Symfony\Component\HttpFoundation\Response  prepareResponse(mixed $value, \Illuminate\Http\Request $request)    Prepare the given value as a Response object.
  * @method  static  void                                        register(\Illuminate\Support\ServiceProvider $provider, array $options = array())    Register a service provider with the application.
  * @method  static  void                                        registerAliasLoader(array $aliases)    Register the aliased class loader.
  * @method  static  void                                        resolving(\Closure $callback)    Register a new resolving callback.
@@ -190,25 +190,26 @@ class Config extends Illuminate\Support\Facades\Config {}
 /** 'Controller::' aliases 'Illuminate\Routing\Controllers\Controller'
  * @method  static  void                                        afterFilter(string $filter, array $options = array())    Register a new "after" filter on the controller.
  * @method  static  void                                        beforeFilter(string $filter, array $options = array())    Register a new "before" filter on the controller.
- * @method  static  \Symfony\Component\HttpFoundation\Response  callAction(\Illuminate\Container $container, \Illuminate\Routing\Router $router, string $method, array $parameters)    Execute an action on the controller.
+ * @method  static  \Symfony\Component\HttpFoundation\Response  callAction(\Illuminate\Container\Container $container, \Illuminate\Routing\Router $router, string $method, array $parameters)    Execute an action on the controller.
  * @method  static  array                                       getControllerFilters()    Get the code registered filters.
  * @method  static  mixed                                       missingMethod(array $parameters)    Handle calls to missing methods on the controller.
 */
 class Controller extends Illuminate\Routing\Controllers\Controller {}
 
 /** 'Cookie::' aliases a facade that provides 'Illuminate\Cookie\CookieJar'
- * @method  static  \Symfony\Component\HttpFoundation\Cookie   forever(string $name, string $value, string $path = "/", string $domain = null, bool $secure = false, bool $httpOnly = true)    Create a cookie that lasts "forever" (five years).
+ * @method  static  \Symfony\Component\HttpFoundation\Cookie   forever(string $name, string $value, string $path = null, string $domain = null, bool $secure = false, bool $httpOnly = true)    Create a cookie that lasts "forever" (five years).
  * @method  static  \Symfony\Component\HttpFoundation\Cookie   forget(string $name)    Expire the given cookie.
  * @method  static  mixed                                      get(string $key, mixed $default = null)    Get the value of the given cookie.
- * @method  static  \Illuminate\Encrypter                      getEncrypter()    Get the encrypter instance.
+ * @method  static  \Illuminate\Encryption\Encrypter           getEncrypter()    Get the encrypter instance.
  * @method  static  \Symfony\Component\HttpFoundation\Request  getRequest()    Get the request instance.
  * @method  static  bool                                       has(string $key)    Determine if a cookie exists and is not null.
- * @method  static  \Symfony\Component\HttpFoundation\Cookie   make(string $name, string $value, int $minutes = "0", string $path = "/", string $domain = null, bool $secure = false, bool $httpOnly = true)    Create a new cookie instance.
+ * @method  static  \Symfony\Component\HttpFoundation\Cookie   make(string $name, string $value, int $minutes = "0", string $path = null, string $domain = null, bool $secure = false, bool $httpOnly = true)    Create a new cookie instance.
+ * @method  static  void                                       setDefaultPathAndDomain(string $path, string $domain)    Set the default path and domain for the jar.
 */
 class Cookie extends Illuminate\Support\Facades\Cookie {}
 
 /** 'Crypt::' aliases a facade that provides 'Illuminate\Encryption\Encrypter'
- * @method  static  string  decrypt( $payload, string $value)    Decrypt the given value.
+ * @method  static  string  decrypt(string $payload)    Decrypt the given value.
  * @method  static  string  encrypt(string $value)    Encrypt the given value.
 */
 class Crypt extends Illuminate\Support\Facades\Crypt {}
@@ -299,12 +300,12 @@ class DB extends Illuminate\Support\Facades\DB {}
  * @method  static  \Illuminate\Database\Eloquent\Model                    guard(array $guarded)    Set the guarded attributes for the model.
  * @method  static  bool                                                   hasGetMutator(string $key)    Determine if a get mutator exists for an attribute.
  * @method  static  \Illuminate\Database\Eloquent\Relations\HasMany        hasMany(string $related, string $foreignKey = null)    Define a one-to-many relationship.
- * @method  static  \Illuminate\Database\Eloquent\Relation\HasOne          hasOne(string $related, string $foreignKey = null)    Define a one-to-one relationship.
+ * @method  static  \Illuminate\Database\Eloquent\Relations\HasOne         hasOne(string $related, string $foreignKey = null)    Define a one-to-one relationship.
  * @method  static  bool                                                   hasSetMutator(string $key)    Determine if a set mutator exists for an attribute.
  * @method  static  bool                                                   isFillable(string $key)    Determine if the given attribute may be mass assigned.
  * @method  static  string                                                 joiningTable(string $related)    Get the joining table name for a many-to-many relation.
- * @method  static  \Illuminate\Database\Eloquent\Relation\MorphMany       morphMany(string $related, string $name, string $type = null, string $id = null)    Define a polymorphic one-to-many relationship.
- * @method  static  \Illuminate\Database\Eloquent\Relation\MorphOne        morphOne(string $related, string $name, string $type = null, string $id = null)    Define a polymorphic one-to-one relationship.
+ * @method  static  \Illuminate\Database\Eloquent\Relations\MorphMany      morphMany(string $related, string $name, string $type = null, string $id = null)    Define a polymorphic one-to-many relationship.
+ * @method  static  \Illuminate\Database\Eloquent\Relations\MorphOne       morphOne(string $related, string $name, string $type = null, string $id = null)    Define a polymorphic one-to-one relationship.
  * @method  static  \Illuminate\Database\Eloquent\Relations\BelongsTo      morphTo(string $name = null, string $type = null, string $id = null)    Define an polymorphic, inverse one-to-one or many relationship.
  * @method  static  \Illuminate\Database\Eloquent\Collection               newCollection(array $models = array())    Create a new Eloquent Collection instance.
  * @method  static  \Illuminate\Database\Eloquent\Model                    newFromBuilder(array $attributes = array())    Create a new model instance that is existing.
@@ -396,7 +397,7 @@ class File extends Illuminate\Support\Facades\File {}
  * @method  static  string  radio(string $name, mixed $value = null, bool $checked = null, array $options = array())    Create a radio button input field.
  * @method  static  string  select(string $name, array $list = array(), string $selected = null, array $options = array())    Create a select box field.
  * @method  static  void    setSessionStore(\Illuminate\Session\Store $session)    Set the session store implementation.
- * @method  static  string  submit(string $value = null, array $options = array())    Create a submit button element.
+ * @method  static  string  submit(string $value = "Submit", array $options = array())    Create a submit button element.
  * @method  static  string  text(string $name, string $value = null, array $options = array())    Create a text input field.
  * @method  static  string  textarea(string $name, string $value = null, array $options = array())    Create a textarea input field.
  * @method  static  string  token()    Generate a hidden field with the current CSRF token.
@@ -555,7 +556,7 @@ class Log extends Illuminate\Support\Facades\Log {}
  * @method  static  void                          plain(string $view, array $data, mixed $callback)    Send a new message when only a plain part.
  * @method  static  void                          pretend(bool $value = true)    Tell the mailer to not really send messages.
  * @method  static  void                          send(string $view, array $data, \Closure $callback)    Send a new message using a view.
- * @method  static  void                          setContainer(\Illuminate\Container $container)    Set the IoC container instance.
+ * @method  static  void                          setContainer(\Illuminate\Container\Container $container)    Set the IoC container instance.
  * @method  static  void                          setLogger(\Illuminate\Log\Writer $logger)    Set the log writer instance.
  * @method  static  void                          setSwiftMailer(\Swift_Mailer $swift)    Set the Swift Mailer instance.
 */
@@ -584,7 +585,7 @@ class Paginator extends Illuminate\Support\Facades\Paginator {}
  * @method  static  \Illuminate\Auth\RemindableInterface  getUser(array $credentials)    Get the user for the given credentials.
  * @method  static  \Illuminate\Http\RedirectResponse     remind(array $credentials, \Closure $callback = null)    Send a password reminder to a user.
  * @method  static  mixed                                 reset( $credentials, \Closure $callback, string $token, string $newPassword)    Reset the password for the given token.
- * @method  static  void                                  sendReminder(\Illuminate\Auth\RemindableInterface $user, string $token, \Closure $callback = null)    Send the password reminder e-mail.
+ * @method  static  void                                  sendReminder(\Illuminate\Auth\Reminders\RemindableInterface $user, string $token, \Closure $callback = null)    Send the password reminder e-mail.
 */
 class Password extends Illuminate\Support\Facades\Password {}
 
@@ -721,7 +722,7 @@ class Request extends Illuminate\Support\Facades\Request {}
 
 /** 'Response::' aliases 'Illuminate\Support\Facades\Response'
  * @method  static  \Symfony\Component\HttpFoundation\BinaryFileResponse  download(\SplFileInfo $file,  $name = null, array $headers = array(), int $status)    Create a new file download response.
- * @method  static  \Symfony\Component\HttpFoundation\JsonResponse        json( $data = array(), int $status = "200", array $headers = array(), string $content)    Return a new JSON response from the application.
+ * @method  static  \Symfony\Component\HttpFoundation\JsonResponse        json(string $data = array(), int $status = "200", array $headers = array())    Return a new JSON response from the application.
  * @method  static  \Symfony\Component\HttpFoundation\Response            make(string $content = "", int $status = "200", array $headers = array())    Return a new response from the application.
  * @method  static  \Symfony\Component\HttpFoundation\StreamedResponse    stream(\Closure $callback, int $status = "200", array $headers = array())    Return a new streamed response from the application.
 */
@@ -744,7 +745,7 @@ class Response extends Illuminate\Support\Facades\Response {}
  * @method  static  \Symfony\Component\HttpFoundation\Response  dispatch(\Symfony\Component\HttpFoundation\Request $request)    Get the response for a given request.
  * @method  static  void                                        enableFilters()    Enable the running of filters.
  * @method  static  bool                                        filtersEnabled()    Determine if route filters are enabled.
- * @method  static  array                                       findPatternFilters(\Illuminate\Foundation\Request $request)    Find the patterned filters matching a request.
+ * @method  static  array                                       findPatternFilters(\Illuminate\Http\Request $request)    Find the patterned filters matching a request.
  * @method  static  void                                        finish(\Closure $callback)    Register a "finish" routing filters.
  * @method  static  \Illuminate\Routing\Route                   get(string $pattern, mixed $action)    Add a new route to the collection.
  * @method  static  \Illuminate\Container\Container             getContainer()    Get the container used by the router.
@@ -766,7 +767,7 @@ class Response extends Illuminate\Support\Facades\Response {}
  * @method  static  void                                        pattern(string $key, string $pattern)    Set a global where pattern on all routes
  * @method  static  mixed                                       performBinding(string $key, mixed $value, \Illuminate\Routing\Route $route)    Call a binder for a given wildcard.
  * @method  static  \Illuminate\Routing\Route                   post(string $pattern, mixed $action)    Add a new route to the collection.
- * @method  static  \Symfony\Component\HttpFoundation\Response  prepare(mixed $value, \Illuminate\Foundation\Request $request)    Prepare the given value as a Response object.
+ * @method  static  \Symfony\Component\HttpFoundation\Response  prepare(mixed $value, \Illuminate\Http\Request $request)    Prepare the given value as a Response object.
  * @method  static  \Illuminate\Routing\Route                   put(string $pattern, mixed $action)    Add a new route to the collection.
  * @method  static  void                                        resource(string $resource, string $controller, array $options = array())    Route a resource to a controller.
  * @method  static  void                                        setContainer(\Illuminate\Container\Container $container)    Set the container instance on the router.
@@ -795,45 +796,45 @@ class Schema extends Illuminate\Support\Facades\Schema {}
 class Seeder extends Illuminate\Database\Seeder {}
 
 /** 'Session::' aliases a facade that provides 'Illuminate\Session\CookieStore'
- * @method  static  array                  all()    Get the full array of session data, including flash data.
- * @method  static  void                   createSession(string $id, array $session, \Symfony\Component\HttpFoundation\Response $response)    Create a new session in storage.
- * @method  static  void                   finish(\Symfony\Component\HttpFoundation\Response $response, int $lifetime)    Finish the session handling for the request.
- * @method  static  void                   flash(string $key, mixed $value)    Flash a key / value pair to the session.
- * @method  static  void                   flashInput(array $value)    Flash an input array to the session.
- * @method  static  void                   flush()    Remove all of the items from the session.
- * @method  static  void                   forget(string $key)    Remove an item from the session.
- * @method  static  mixed                  get(string $key, mixed $default = null)    Get the requested item from the session.
- * @method  static  void                   getCookie(\Illuminate\Cookie\CookieJar $cookie, string $name, int $lifetime, string $path, string $domain)    Write the session cookie to the response.
- * @method  static  \Illuminate\CookieJar  getCookieJar()    Get the cookie jar instance.
- * @method  static  mixed                  getCookieOption(string $option)    Get the given cookie option.
- * @method  static  mixed                  getFlash(string $key, mixed $default = null)    Get the request item from the flash data.
- * @method  static  int                    getLastActivity()    Get the session's last activity UNIX timestamp.
- * @method  static  mixed                  getOldInput(string $key = null, mixed $default = null)    Get the requested item from the flashed input array.
- * @method  static                         getSession()    Get the session payload.
- * @method  static  string                 getSessionID()    Get the current session ID.
- * @method  static  string                 getToken()    Get the CSRF token value.
- * @method  static  bool                   has(string $key)    Determine if the session contains a given item.
- * @method  static  bool                   hasOldInput(string $key)    Determine if the old input contains an item.
- * @method  static  bool                   hitsLottery()    Determine if the request hits the sweeper lottery.
- * @method  static  void                   keep(string $keys)    Keep a session flash item from expiring.
- * @method  static  bool                   offsetExists(string $key)    Determine if the given offset exists.
- * @method  static  mixed                  offsetGet(string $key)    Get the value at a given offset.
- * @method  static  void                   offsetSet(string $key, mixed $value)    Store a value at the given offset.
- * @method  static  void                   offsetUnset(string $key)    Remove the value at a given offset.
- * @method  static  void                   put(string $key, mixed $value)    Put a key / value pair in the session.
- * @method  static  void                   reflash()    Keep all of the session flash data from expiring.
- * @method  static  string                 regenerate()    Generate a new session identifier.
- * @method  static  array|null             retrieveSession(string $id)    Retrieve a session payload from storage.
- * @method  static  bool                   sessionExists()    Determine if the session exists in storage.
- * @method  static  void                   setCookieName(string $name)    Set the session cookie name.
- * @method  static  void                   setCookieOption(string $option, mixed $value)    Set the given cookie option.
- * @method  static  void                   setExists(bool $value)    Set the existence of the session.
- * @method  static  void                   setLifetime(int $minutes)    Set the session lifetime.
- * @method  static  void                   setPayloadName(string $name)    Set the name of the session payload cookie.
- * @method  static  void                   setSession(array $session)    Set the entire session payload.
- * @method  static  void                   setSweepLottery(array $values)    Set the chances of hitting the Sweeper lottery.
- * @method  static  void                   start(\Illuminate\CookieJar $cookies, string $name)    Load the session for the request.
- * @method  static  void                   updateSession(string $id, array $session, \Symfony\Component\HttpFoundation\Response $response)    Update an existing session in storage.
+ * @method  static  array                         all()    Get the full array of session data, including flash data.
+ * @method  static  void                          createSession(string $id, array $session, \Symfony\Component\HttpFoundation\Response $response)    Create a new session in storage.
+ * @method  static  void                          finish(\Symfony\Component\HttpFoundation\Response $response, int $lifetime)    Finish the session handling for the request.
+ * @method  static  void                          flash(string $key, mixed $value)    Flash a key / value pair to the session.
+ * @method  static  void                          flashInput(array $value)    Flash an input array to the session.
+ * @method  static  void                          flush()    Remove all of the items from the session.
+ * @method  static  void                          forget(string $key)    Remove an item from the session.
+ * @method  static  mixed                         get(string $key, mixed $default = null)    Get the requested item from the session.
+ * @method  static  void                          getCookie(\Illuminate\Cookie\CookieJar $cookie, string $name, int $lifetime, string $path, string $domain)    Write the session cookie to the response.
+ * @method  static  \Illuminate\Cookie\CookieJar  getCookieJar()    Get the cookie jar instance.
+ * @method  static  mixed                         getCookieOption(string $option)    Get the given cookie option.
+ * @method  static  mixed                         getFlash(string $key, mixed $default = null)    Get the request item from the flash data.
+ * @method  static  int                           getLastActivity()    Get the session's last activity UNIX timestamp.
+ * @method  static  mixed                         getOldInput(string $key = null, mixed $default = null)    Get the requested item from the flashed input array.
+ * @method  static                                getSession()    Get the session payload.
+ * @method  static  string                        getSessionID()    Get the current session ID.
+ * @method  static  string                        getToken()    Get the CSRF token value.
+ * @method  static  bool                          has(string $key)    Determine if the session contains a given item.
+ * @method  static  bool                          hasOldInput(string $key)    Determine if the old input contains an item.
+ * @method  static  bool                          hitsLottery()    Determine if the request hits the sweeper lottery.
+ * @method  static  void                          keep(string $keys)    Keep a session flash item from expiring.
+ * @method  static  bool                          offsetExists(string $key)    Determine if the given offset exists.
+ * @method  static  mixed                         offsetGet(string $key)    Get the value at a given offset.
+ * @method  static  void                          offsetSet(string $key, mixed $value)    Store a value at the given offset.
+ * @method  static  void                          offsetUnset(string $key)    Remove the value at a given offset.
+ * @method  static  void                          put(string $key, mixed $value)    Put a key / value pair in the session.
+ * @method  static  void                          reflash()    Keep all of the session flash data from expiring.
+ * @method  static  string                        regenerate()    Generate a new session identifier.
+ * @method  static  array|null                    retrieveSession(string $id)    Retrieve a session payload from storage.
+ * @method  static  bool                          sessionExists()    Determine if the session exists in storage.
+ * @method  static  void                          setCookieName(string $name)    Set the session cookie name.
+ * @method  static  void                          setCookieOption(string $option, mixed $value)    Set the given cookie option.
+ * @method  static  void                          setExists(bool $value)    Set the existence of the session.
+ * @method  static  void                          setLifetime(int $minutes)    Set the session lifetime.
+ * @method  static  void                          setPayloadName(string $name)    Set the name of the session payload cookie.
+ * @method  static  void                          setSession(array $session)    Set the entire session payload.
+ * @method  static  void                          setSweepLottery(array $values)    Set the chances of hitting the Sweeper lottery.
+ * @method  static  void                          start(\Illuminate\Cookie\CookieJar $cookies, string $name)    Load the session for the request.
+ * @method  static  void                          updateSession(string $id, array $session, \Symfony\Component\HttpFoundation\Response $response)    Update an existing session in storage.
 */
 class Session extends Illuminate\Support\Facades\Session {}
 
@@ -845,14 +846,16 @@ class Session extends Illuminate\Support\Facades\Session {}
  * @method  static  string  finish(string $value, string $cap)    Cap a string with a single instance of a given value.
  * @method  static  bool    is(string $pattern, string $value)    Determine if a given string matches a given pattern.
  * @method  static  string  limit(string $value, int $limit = "100", string $end = "...")    Limit the number of characters in a string.
+ * @method  static  string  lower(string $value)    Convert the given string to lower-case.
  * @method  static  string  plural(string $value, int $count = "2")    Get the plural form of an English word.
  * @method  static  string  quickRandom(int $length = "16")    Generate a "random" alpha-numeric string.
  * @method  static  string  random(int $length = "16")    Generate a more truly "random" alpha-numeric string.
  * @method  static  string  singular(string $value)    Get the singular form of an English word.
  * @method  static  string  slug(string $title, string $separator = "-")    Generate a URL friendly "slug" from a given string.
  * @method  static  string  snake(string $value, string $delimiter = "_")    Convert a string to snake case.
- * @method  static  bool    startsWith(string $haystack,  $needles, string $needle)    Determine if a string starts with a given needle.
+ * @method  static  bool    startsWith(string $haystack, string $needles)    Determine if a string starts with a given needle.
  * @method  static  string  studly(string $value)    Convert a value to studly caps case.
+ * @method  static  string  upper(string $value)    Convert the given string to upper-case.
  * @method  static  string  words(string $value, int $words = "100", string $end = "...")    Limit the number of words in a string.
 */
 class Str extends Illuminate\Support\Str {}
@@ -866,7 +869,7 @@ class Str extends Illuminate\Support\Str {}
  * @method  static  bool                                               isValidUrl(string $path)    Determine if the given path is a valid URL.
  * @method  static  string                                             previous()    Get the URL for the previous request.
  * @method  static  string                                             route(string $name, mixed $parameters = array(), bool $absolute = true)    Get the URL to a named route.
- * @method  static  string                                             secure(string $path,  $parameters = array())    Generate a secure, absolute URL to the given path.
+ * @method  static  string                                             secure(string $path, array $parameters = array())    Generate a secure, absolute URL to the given path.
  * @method  static  string                                             secureAsset(string $path)    Generate a URL to a secure asset.
  * @method  static  void                                               setGenerator(\Symfony\Component\Routing\Generator\UrlGenerator $generator)    Get the Symfony URL generator instance.
  * @method  static  void                                               setRequest(\Symfony\Component\HttpFoundation\Request $request)    Set the current request instance.
@@ -907,7 +910,7 @@ class Validator extends Illuminate\Support\Facades\Validator {}
  * @method  static  bool                                     doneRendering()    Check if there are no active render operations.
  * @method  static  bool                                     exists(string $view)    Determine if a given view exists.
  * @method  static  void                                     flushSections()    Flush all of the section contents.
- * @method  static  \Illuminate\Container                    getContainer()    Get the IoC container instance.
+ * @method  static  \Illuminate\Container\Container          getContainer()    Get the IoC container instance.
  * @method  static  \Illuminate\Events\Dispatcher            getDispatcher()    Get the event dispatcher instance.
  * @method  static  \Illuminate\View\Engines\EngineResolver  getEngineResolver()    Get the engine resolver instance.
  * @method  static  array                                    getExtensions()    Get the extension to engine bindings.
@@ -916,9 +919,9 @@ class Validator extends Illuminate\Support\Facades\Validator {}
  * @method  static  array                                    getShared()    Get all of the shared data for the environment.
  * @method  static  void                                     incrementRender()    Increment the rendering counter.
  * @method  static  void                                     inject(string $section, string $content)    Inject inline content into a section.
- * @method  static  \Illuminate\View\View                    make(string $view, array $data = array())    Get a evaluated view contents for the given view.
+ * @method  static  \Illuminate\View\View                    make(string $view, mixed $data = array())    Get a evaluated view contents for the given view.
  * @method  static  string                                   renderEach(string $view, array $data, string $iterator, string $empty = "raw|")    Get the rendered contents of a partial from a loop.
- * @method  static  void                                     setContainer(\Illuminate\Container $container)    Set the IoC container instance.
+ * @method  static  void                                     setContainer(\Illuminate\Container\Container $container)    Set the IoC container instance.
  * @method  static  void                                     share(string $key, mixed $value)    Add a piece of shared data to the environment.
  * @method  static  void                                     startSection(string $section, string $content = "")    Start injecting content into a section.
  * @method  static  string                                   stopSection()    Stop injecting content into a section.
