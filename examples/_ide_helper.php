@@ -96,7 +96,7 @@ class Artisan extends Illuminate\Support\Facades\Artisan {}
 /** 'Auth::' aliases a factory that provides 'Illuminate\Auth\Guard'
  * @method  static  bool                                    attempt(array $credentials = array(), bool $remember = false, bool $login = true)    Attempt to authenticate a user using the given credentials.
  * @method  static  bool                                    check()    Determine if the current user is authenticated.
- * @method  static  \Illuminate\CookieJar                   getCookieJar()    Get the cookie creator instance used by the guard.
+ * @method  static  \Illuminate\Cookie\CookieJar            getCookieJar()    Get the cookie creator instance used by the guard.
  * @method  static  \Illuminate\Events\Dispatcher           getDispatcher()    Get the event dispatcher instance.
  * @method  static  string                                  getName()    Get a unique identifier for the auth session value.
  * @method  static  \Illuminate\Auth\UserProviderInterface  getProvider()    Get the user provider used by the guard.
@@ -108,7 +108,7 @@ class Artisan extends Illuminate\Support\Facades\Artisan {}
  * @method  static  void                                    login(\Illuminate\Auth\UserInterface $user, bool $remember = false)    Log a user into the application.
  * @method  static  \Illuminate\Auth\UserInterface          loginUsingId(mixed $id, bool $remember = false)    Log the given user ID into the application.
  * @method  static  void                                    logout()    Log the user out of the application.
- * @method  static  void                                    setCookieJar(\Illuminate\CookieJar $cookie)    Set the cookie creator instance used by the guard.
+ * @method  static  void                                    setCookieJar(\Illuminate\Cookie\CookieJar $cookie)    Set the cookie creator instance used by the guard.
  * @method  static                                          setDispatcher(Illuminate\Events\Dispatcher $events)    Set the event dispatcher instance.
  * @method  static  void                                    setUser(\Illuminate\Auth\UserInterface $user)    Set the current user of the application.
  * @method  static  bool                                    stateless(array $credentials = array())    Log a user into the application without sessions or cookies.
@@ -126,31 +126,19 @@ class Auth extends Illuminate\Support\Facades\Auth {}
  * @method  static  void    extend(\Closure $compiler)    Register a custom Blade compiler.
  * @method  static  string  getCompiledPath(string $path)    Get the path to the compiled version of a view.
  * @method  static  bool    isExpired(string $path)    Determine if the view at the given path is expired.
- * @method  static  void    setContentTags(string $openTag, string $closeTag, array $raw = false)    Sets the content tags used for the compiler.
+ * @method  static  void    setContentTags(string $openTag, string $closeTag, bool $raw = false)    Sets the content tags used for the compiler.
  * @method  static  void    setEscapedContentTags(string $openTag, string $closeTag)    Sets the raw content tags used for the compiler.
 */
 class Blade extends Illuminate\Support\Facades\Blade {}
 
-/** 'Cache::' aliases a factory that provides 'Illuminate\Cache\Store'
- * @method  static  void   add(string $key, mixed $value, int $minutes)    Store an item in the cache if the key does not exist.
- * @method  static  void   decrement(string $key, int $value = "1")    Decrement the value at a given key.
- * @method  static  bool   existsInMemory(string $key)    Determine if an item is in memory.
+/** 'Cache::' aliases a factory that provides 'Illuminate\Cache\StoreInterface'
+ * @method  static  void   decrement(string $key, mixed $value = "1")    Increment the value of an item in the cache.
  * @method  static  void   flush()    Remove all items from the cache.
  * @method  static  void   forever(string $key, mixed $value)    Store an item in the cache indefinitely.
  * @method  static  void   forget(string $key)    Remove an item from the cache.
- * @method  static  mixed  get(string $key, mixed $default = null)    Retrieve an item from the cache by key.
- * @method  static  int    getDefaultCacheTime()    Get the default cache time.
- * @method  static  array  getMemory()    Get all of the values in memory.
- * @method  static  bool   has(string $key)    Determine if an item exists in the cache.
- * @method  static  void   increment(string $key, int $value = "1")    Increment the value at a given key.
- * @method  static  bool   offsetExists(string $key)    Determine if a cached value exists.
- * @method  static  mixed  offsetGet(string $key)    Retrieve an item from the cache by key.
- * @method  static  void   offsetSet(string $key, mixed $value)    Store an item in the cache for the default time.
- * @method  static  void   offsetUnset(string $key)    Remove an item from the cache.
- * @method  static  void   put(string $key, mixed $value, int $minutes)    Store an item in the cache.
- * @method  static         remember(string $key, int $minutes, \Closure $callback)    Get an item from the cache, or store the default value.
- * @method  static         rememberForever(string $key, \Closure $callback)    Get an item from the cache, or store the default value forever.
- * @method  static  void   setDefaultCacheTime(int $minutes)    Set the default cache time in minutes.
+ * @method  static  mixed  get(string $key)    Retrieve an item from the cache by key.
+ * @method  static  void   increment(string $key, mixed $value = "1")    Increment the value of an item in the cache.
+ * @method  static  void   put(string $key, mixed $value, int $minutes)    Store an item in the cache for a given number of minutes.
 */
 class Cache extends Illuminate\Support\Facades\Cache {}
 
@@ -177,12 +165,12 @@ class ClassLoader extends Illuminate\Support\ClassLoader {}
  * @method  static  bool                                hasGroup(string $key)    Determine if a configuration group exists.
  * @method  static  bool                                offsetExists(string $key)    Determine if the given configuration option exists.
  * @method  static  bool                                offsetGet(string $key)    Get a configuration option.
- * @method  static  bool                                offsetSet(string $key,  $value)    Set a configuration option.
- * @method  static  bool                                offsetUnset(string $key)    Unset a configuration option.
+ * @method  static  void                                offsetSet(string $key, string $value)    Set a configuration option.
+ * @method  static  void                                offsetUnset(string $key)    Unset a configuration option.
  * @method  static  void                                package(string $package, string $hint, string $namespace = null)    Register a package for cascading configuration.
  * @method  static  array                               parseKey(string $key)    Parse a key into namespace, group, and item.
  * @method  static  void                                set(string $key, mixed $value)    Set a given configuration value.
- * @method  static  \Illuminate\Config\LoaderInterface  setLoader(Illuminate\Config\LoaderInterface $loader)    Set the loader implementation.
+ * @method  static  void                                setLoader(\Illuminate\Config\LoaderInterface $loader)    Set the loader implementation.
  * @method  static  void                                setParsedKey(string $key, array $parsed)    Set the parsed value of a key.
 */
 class Config extends Illuminate\Support\Facades\Config {}
@@ -381,32 +369,32 @@ class Event extends Illuminate\Support\Facades\Event {}
 class File extends Illuminate\Support\Facades\File {}
 
 /** 'Form::' aliases a facade that provides 'Illuminate\Html\FormBuilder'
- * @method  static  string  button(string $value = null, array $options = array())    Create a button element.
- * @method  static  string  checkbox(string $name, mixed $value = "1", bool $checked = null, array $options = array())    Create a checkbox input field.
- * @method  static  string  close()    Close the current form.
- * @method  static  string  email(string $name, string $value = null, array $options = array())    Create an e-mail input field.
- * @method  static  string  file(string $name, array $options = array())    Create a file input field.
- * @method  static  void    getSessionStore(\Illuminate\Session\Store $session)    Get the session store implementation.
- * @method  static  string  hidden(string $name, string $value = null, array $options = array())    Create a hidden input field.
- * @method  static  string  input(string $type, string $name, string $value = null, array $options = array())    Create a form input field.
- * @method  static  string  label(string $name, string $value, array $options = array())    Create a form label element.
- * @method  static  void    macro(string $name, callable $macro)    Register a custom form macro.
- * @method  static  string  model(mixed $model, array $options = array())    Create a new model based form builder.
- * @method  static  string  open(array $options = array())    Open up a new HTML form.
- * @method  static  string  password(string $name, array $options = array())    Create a password input field.
- * @method  static  string  radio(string $name, mixed $value = null, bool $checked = null, array $options = array())    Create a radio button input field.
- * @method  static  string  select(string $name, array $list = array(), string $selected = null, array $options = array())    Create a select box field.
- * @method  static  void    setSessionStore(\Illuminate\Session\Store $session)    Set the session store implementation.
- * @method  static  string  submit(string $value = "Submit", array $options = array())    Create a submit button element.
- * @method  static  string  text(string $name, string $value = null, array $options = array())    Create a text input field.
- * @method  static  string  textarea(string $name, string $value = null, array $options = array())    Create a textarea input field.
- * @method  static  string  token()    Generate a hidden field with the current CSRF token.
+ * @method  static  string                     button(string $value = null, array $options = array())    Create a button element.
+ * @method  static  string                     checkbox(string $name, mixed $value = "1", bool $checked = null, array $options = array())    Create a checkbox input field.
+ * @method  static  string                     close()    Close the current form.
+ * @method  static  string                     email(string $name, string $value = null, array $options = array())    Create an e-mail input field.
+ * @method  static  string                     file(string $name, array $options = array())    Create a file input field.
+ * @method  static  \Illuminate\Session\Store  getSessionStore()    Get the session store implementation.
+ * @method  static  string                     hidden(string $name, string $value = null, array $options = array())    Create a hidden input field.
+ * @method  static  string                     input(string $type, string $name, string $value = null, array $options = array())    Create a form input field.
+ * @method  static  string                     label(string $name, string $value, array $options = array())    Create a form label element.
+ * @method  static  void                       macro(string $name, callable $macro)    Register a custom form macro.
+ * @method  static  string                     model(mixed $model, array $options = array())    Create a new model based form builder.
+ * @method  static  string                     open(array $options = array())    Open up a new HTML form.
+ * @method  static  string                     password(string $name, array $options = array())    Create a password input field.
+ * @method  static  string                     radio(string $name, mixed $value = null, bool $checked = null, array $options = array())    Create a radio button input field.
+ * @method  static  string                     select(string $name, array $list = array(), string $selected = null, array $options = array())    Create a select box field.
+ * @method  static  void                       setSessionStore(\Illuminate\Session\Store $session)    Set the session store implementation.
+ * @method  static  string                     submit(string $value = "Submit", array $options = array())    Create a submit button element.
+ * @method  static  string                     text(string $name, string $value = null, array $options = array())    Create a text input field.
+ * @method  static  string                     textarea(string $name, string $value = null, array $options = array())    Create a textarea input field.
+ * @method  static  string                     token()    Generate a hidden field with the current CSRF token.
 */
 class Form extends Illuminate\Support\Facades\Form {}
 
 /** 'Hash::' aliases a facade that provides 'Illuminate\Hashing\BcryptHasher'
- * @method  static  bool   check(string $value, string $hashedValue, array $options = array())    Check the given plain value against a hash.
- * @method  static  array  make(string $value,  $options = array())    Hash the given value.
+ * @method  static  bool    check(string $value, string $hashedValue, array $options = array())    Check the given plain value against a hash.
+ * @method  static  string  make(string $value, array $options = array())    Hash the given value.
 */
 class Hash extends Illuminate\Support\Facades\Hash {}
 
@@ -523,7 +511,7 @@ class Input extends Illuminate\Support\Facades\Input {}
 
 /** 'Lang::' aliases a facade that provides 'Illuminate\Translation\Translator'
  * @method  static  void                                            addNamespace(string $namespace, string $hint)    Add a new namespace to the loader.
- * @method  static  string                                          choice( $key, int $number, array $replace = array(), string $locale = null, string $id)    Get a translation according to an integer value.
+ * @method  static  string                                          choice(string $key, int $number, array $replace = array(), string $locale = null)    Get a translation according to an integer value.
  * @method  static  string                                          get(string $key, array $replace = array(), string $locale = null)    Get the translation for the given key.
  * @method  static  \Illuminate\Translation\LoaderInterface         getLoader()    Get the language line loader implementation.
  * @method  static  string                                          getLocale()    Get the default locale being used.
@@ -582,15 +570,17 @@ class Mail extends Illuminate\Support\Facades\Mail {}
 class Paginator extends Illuminate\Support\Facades\Paginator {}
 
 /** 'Password::' aliases a facade that provides 'Illuminate\Auth\Reminders\PasswordBroker'
- * @method  static  \Illuminate\Auth\RemindableInterface  getUser(array $credentials)    Get the user for the given credentials.
- * @method  static  \Illuminate\Http\RedirectResponse     remind(array $credentials, \Closure $callback = null)    Send a password reminder to a user.
- * @method  static  mixed                                 reset( $credentials, \Closure $callback, string $token, string $newPassword)    Reset the password for the given token.
- * @method  static  void                                  sendReminder(\Illuminate\Auth\Reminders\RemindableInterface $user, string $token, \Closure $callback = null)    Send the password reminder e-mail.
+ * @method  static  \Illuminate\Auth\Reminders\RemindableInterface  getUser(array $credentials)    Get the user for the given credentials.
+ * @method  static  \Illuminate\Http\RedirectResponse               remind(array $credentials, \Closure $callback = null)    Send a password reminder to a user.
+ * @method  static  mixed                                           reset(array $credentials, \Closure $callback)    Reset the password for the given token.
+ * @method  static  void                                            sendReminder(\Illuminate\Auth\Reminders\RemindableInterface $user, string $token, \Closure $callback = null)    Send the password reminder e-mail.
 */
 class Password extends Illuminate\Support\Facades\Password {}
 
-/** 'Queue::' aliases a factory that provides 'Illuminate\Queue\Queue'
- * @method  static  void  setContainer(\Illuminate\Container $container)    Set the IoC container instance.
+/** 'Queue::' aliases a factory that provides 'Illuminate\Queue\QueueInterface'
+ * @method  static  void                             later(int $delay, string $job, mixed $data = "", string $queue = null)    Push a new job onto the queue after a delay.
+ * @method  static  \Illuminate\Queue\Jobs\Job|\nul  pop(string $queue = null)    Pop the next job off of the queue.
+ * @method  static  void                             push(string $job, mixed $data = "", string $queue = null)    Push a new job onto the queue.
 */
 class Queue extends Illuminate\Support\Facades\Queue {}
 
@@ -738,6 +728,8 @@ class Response extends Illuminate\Support\Facades\Response {}
  * @method  static  void                                        close(\Closure $callback)    Register a "close" routing filter.
  * @method  static  \Illuminate\Routing\Route                   controller(string $uri, string $controller)    Route a controller to a URI with wildcard routing.
  * @method  static  void                                        controllers(array $controllers)    Register an array of controllers with wildcard routing.
+ * @method  static  string|null                                 currentRouteAction()    Get the current route action.
+ * @method  static  string|null                                 currentRouteName()    Get the current route name.
  * @method  static  bool                                        currentRouteNamed(string $name)    Determine if the current route has a given name.
  * @method  static  bool                                        currentRouteUses(string $action)    Determine if the current route uses a given controller action.
  * @method  static  \Illuminate\Routing\Route                   delete(string $pattern, mixed $action)    Add a new route to the collection.
@@ -783,7 +775,7 @@ class Route extends Illuminate\Support\Facades\Route {}
  * @method  static  \Illuminate\Database\Connection        getConnection()    Get the database connection instance.
  * @method  static  bool                                   hasTable(string $table)    Determine if the given table exists.
  * @method  static  \Illuminate\Database\Schema\Blueprint  rename(string $from, string $to)    Rename a table on the schema.
- * @method  static  \Illuminate\Database\Schema            setConnection(Illuminate\Database\Connection $connection)    Set the database connection instance.
+ * @method  static  \Illuminate\Database\Schema\Builder    setConnection(Illuminate\Database\Connection $connection)    Set the database connection instance.
  * @method  static  \Illuminate\Database\Schema\Blueprint  table(string $table, \Closure $callback)    Modify a table on the schema.
 */
 class Schema extends Illuminate\Support\Facades\Schema {}
@@ -893,6 +885,7 @@ class URL extends Illuminate\Support\Facades\URL {}
  * @method  static  \Symfony\Component\Translation\TranslatorInterface  getTranslator()    Get the Translator implementation.
  * @method  static  \Illuminate\Support\MessageBag                      messages()    Get the message container for the validator.
  * @method  static  bool                                                passes()    Determine if the data passes the validation rules.
+ * @method  static  \Illuminate\Validation\Validator                    setAttributeNames(array $attributes)    Set the custom attributes on the validator.
  * @method  static  void                                                setData(array $data)    Set the data under validation.
  * @method  static  \Illuminate\Validation\Validator                    setFiles(array $files)    Set the files under validation.
  * @method  static  void                                                setPresenceVerifier(\Illuminate\Validation\PresenceVerifierInterface $presenceVerifier)    Set the Presence Verifier implementation.
@@ -914,7 +907,7 @@ class Validator extends Illuminate\Support\Facades\Validator {}
  * @method  static  \Illuminate\Events\Dispatcher            getDispatcher()    Get the event dispatcher instance.
  * @method  static  \Illuminate\View\Engines\EngineResolver  getEngineResolver()    Get the engine resolver instance.
  * @method  static  array                                    getExtensions()    Get the extension to engine bindings.
- * @method  static  \Illuminate\View\ViewFinder              getFinder()    Get the view finder instance.
+ * @method  static  \Illuminate\View\ViewFinderInterface     getFinder()    Get the view finder instance.
  * @method  static  array                                    getSections()    Get the entire array of sections.
  * @method  static  array                                    getShared()    Get all of the shared data for the environment.
  * @method  static  void                                     incrementRender()    Increment the rendering counter.
