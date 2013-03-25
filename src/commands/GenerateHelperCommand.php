@@ -66,10 +66,10 @@ EOD;
 		//returns an instance of a configured class. I couldn't figure out how to get this from the code/configuration
 		//TODO find a way to get the correct providers from the config/factory/manager
 		$providers['Auth']      = 'Illuminate\Auth\Guard';
-		$providers['Cache']     = 'Illuminate\Cache\Store';
+		$providers['Cache']     = 'Illuminate\Cache\StoreInterface';
 		$providers['DB']        = 'Illuminate\Database\Connection';
 		$providers['Event']     = 'Illuminate\Events\Event';
-		$providers['Queue']     = 'Illuminate\Queue\Queue';
+		$providers['Queue']     = 'Illuminate\Queue\QueueInterface';
 		$providers['Redis']     = 'Illuminate\Redis\Database';
 		$providers['Validator'] = 'Illuminate\Validation\Validator';
 
