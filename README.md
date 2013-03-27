@@ -1,7 +1,7 @@
 laravel4-idehelper-generator
 ============================
 
-Generates a helper file to assist with IDEs with code completion for Laravel 4 in PHPStorm, SublimeText 2, NetBeans (not tested), and maybe other dynamic codeintel IDEs.
+Generates a helper file to assist IDEs with code completion for Laravel 4 in PHPStorm, SublimeText 2, NetBeans (not tested), and maybe other dynamic codeintel IDEs.
 
 It has the desirable side-effect of taking a snapshot of the Laravel 4 API every time it's run and I'm finding it useful to be able to keep up with the day-to-day changes as Laravel 4 matures. I have it under source control and GIT gives me a nice diff showing what's changed.
 
@@ -61,3 +61,5 @@ If you're curious, it reads the Laravel config file to get a list of the aliases
 These two methods of reflection get the method parameters as represented in the code as well as the documentation for the method, using both to build a more complete picture of the methods, parameters, and their defaults.
 
 Comments, Pull Requests, and Issues are more than welcome -- I'm not at all sure I'm doing this right.
+
+You should also check out: https://github.com/barryvdh/laravel-ide-helper -- he takes a similar approach using reflection but generates a very different file, which also works very well, along with some other options.
