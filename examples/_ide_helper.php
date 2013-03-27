@@ -221,6 +221,7 @@ class Crypt extends Illuminate\Support\Facades\Crypt {}
  * @method  static  \Illuminate\Database\Query\Grammars\Grammar      getSchemaGrammar()    Get the schema grammar used by the connection.
  * @method  static  string                                           getTablePrefix()    Get the table prefix for the connection.
  * @method  static  bool                                             insert(string $query, array $bindings = array())    Run an insert statement against the database.
+ * @method  static  void                                             listen(\Closure $callback)    Register a database query listener with the connection.
  * @method  static  void                                             logQuery(string $query, array $bindings,  $time = null)    Log a query in the connection's query log.
  * @method  static  array                                            prepareBindings(array $bindings)    Prepare the query bindings for execution.
  * @method  static  array                                            pretend(\Closure $callback)    Execute the given callback in "dry run" mode.
@@ -261,9 +262,12 @@ class DB extends Illuminate\Support\Facades\DB {}
  * @method  static  void                                                   created(\Closure $callback)    Register a created model event with the dispatcher.
  * @method  static  void                                                   creating(\Closure $callback)    Register a creating model event with the dispatcher.
  * @method  static  void                                                   delete()    Delete the model from the database.
+ * @method  static  void                                                   deleted(\Closure $callback)    Register a deleted model event with the dispatcher.
+ * @method  static  void                                                   deleting(\Closure $callback)    Register a deleting model event with the dispatcher.
  * @method  static  \Illuminate\Database\Eloquent\Model                    fill(array $attributes)    Fill the model with an array of attributes.
  * @method  static  \Illuminate\Database\Eloquent\Model                    fillable(array $fillable)    Set the fillable attributes for the model.
  * @method  static  \Illuminate\Database\Eloquent\Model|\Collection        find(mixed $id, array $columns = array(*))    Find a model by its primary key.
+ * @method  static  \Illuminate\Database\Eloquent\Model|\Collection        findOrFail(mixed $id, array $columns = array(*))    Find a model by its primary key or throw an exception.
  * @method  static  mixed                                                  freshTimestamp()    Get a fresh timestamp for the model.
  * @method  static  mixed                                                  getAttribute(string $key)    Get an attribute from the model.
  * @method  static  array                                                  getAttributes()    Get all of the current attributes on the model.
@@ -282,6 +286,7 @@ class DB extends Illuminate\Support\Facades\DB {}
  * @method  static  array                                                  getMutatedAttributes()    Get the mutated attributes for a given instance.
  * @method  static  array                                                  getOriginal(string $key = null, mixed $default = null)    Get the model's original attribute values.
  * @method  static  int                                                    getPerPage()    Get the number of models to return per page.
+ * @method  static  string                                                 getQualifiedKeyName()    Get the table qualified key name.
  * @method  static  mixed                                                  getRelation(string $relation)    Get a specified relationship.
  * @method  static  string                                                 getTable()    Get the table associated with the model.
  * @method  static  string                                                 getUpdatedAtColumn()    Get the name of the "updated at" column.
@@ -307,6 +312,8 @@ class DB extends Illuminate\Support\Facades\DB {}
  * @method  static  array                                                  relationsToArray()    Get the model's relationships in array form.
  * @method  static  \Illuminate\Database\Connection                        resolveConnection(string $connection)    Resolve a connection instance by name.
  * @method  static  bool                                                   save()    Save the model to the database.
+ * @method  static  void                                                   saved(\Closure $callback)    Register a saved model event with the dispatcher.
+ * @method  static  void                                                   saving(\Closure $callback)    Register a saving model event with the dispatcher.
  * @method  static  void                                                   setAttribute(string $key, mixed $value)    Set a given attribute on the model.
  * @method  static  void                                                   setConnection(string $name)    Set the connection associated with the model.
  * @method  static  void                                                   setConnectionResolver(\Illuminate\Database\ConnectionResolverInterface $resolver)    Set the connection resolver instance.
@@ -322,7 +329,9 @@ class DB extends Illuminate\Support\Facades\DB {}
  * @method  static  \Illuminate\Database\Eloquent\Model                    syncOriginal()    Sync the original attributes with the current.
  * @method  static  array                                                  toArray()    Convert the model instance to an array.
  * @method  static  string                                                 toJson(int $options = "0")    Convert the model instance to JSON.
+ * @method  static  bool                                                   totallyGuarded()    Determine if the model is totally guarded.
  * @method  static  bool                                                   touch()    Update the model's update timestamp.
+ * @method  static  void                                                   touchOwners()    Touch the owning relations of the model.
  * @method  static  void                                                   unsetEventDispatcher()    Unset the event dispatcher for models.
  * @method  static  void                                                   updated(\Closure $callback)    Register an updated model event with the dispatcher.
  * @method  static  void                                                   updating(\Closure $callback)    Register an updating model event with the dispatcher.
@@ -358,6 +367,7 @@ class Event extends Illuminate\Support\Facades\Event {}
  * @method  static  mixed   getRequire(string $path)    Get the returned value of a file.
  * @method  static  array   glob(string $pattern, int $flags = "0")    Find path names matching a given pattern.
  * @method  static  bool    isDirectory(string $directory)    Determine if the given path is a directory.
+ * @method  static  bool    isFile(string $file)    Determine if the given path is a file.
  * @method  static  int     lastModified(string $path)    Get the file's last modification time.
  * @method  static  bool    makeDirectory(string $path, int $mode = "511", bool $recursive = false)    Create a directory.
  * @method  static  void    move(string $path, string $target)    Move a file to a new location.
@@ -369,26 +379,26 @@ class Event extends Illuminate\Support\Facades\Event {}
 class File extends Illuminate\Support\Facades\File {}
 
 /** 'Form::' aliases a facade that provides 'Illuminate\Html\FormBuilder'
- * @method  static  string                     button(string $value = null, array $options = array())    Create a button element.
- * @method  static  string                     checkbox(string $name, mixed $value = "1", bool $checked = null, array $options = array())    Create a checkbox input field.
- * @method  static  string                     close()    Close the current form.
- * @method  static  string                     email(string $name, string $value = null, array $options = array())    Create an e-mail input field.
- * @method  static  string                     file(string $name, array $options = array())    Create a file input field.
- * @method  static  \Illuminate\Session\Store  getSessionStore()    Get the session store implementation.
- * @method  static  string                     hidden(string $name, string $value = null, array $options = array())    Create a hidden input field.
- * @method  static  string                     input(string $type, string $name, string $value = null, array $options = array())    Create a form input field.
- * @method  static  string                     label(string $name, string $value, array $options = array())    Create a form label element.
- * @method  static  void                       macro(string $name, callable $macro)    Register a custom form macro.
- * @method  static  string                     model(mixed $model, array $options = array())    Create a new model based form builder.
- * @method  static  string                     open(array $options = array())    Open up a new HTML form.
- * @method  static  string                     password(string $name, array $options = array())    Create a password input field.
- * @method  static  string                     radio(string $name, mixed $value = null, bool $checked = null, array $options = array())    Create a radio button input field.
- * @method  static  string                     select(string $name, array $list = array(), string $selected = null, array $options = array())    Create a select box field.
- * @method  static  void                       setSessionStore(\Illuminate\Session\Store $session)    Set the session store implementation.
- * @method  static  string                     submit(string $value = "Submit", array $options = array())    Create a submit button element.
- * @method  static  string                     text(string $name, string $value = null, array $options = array())    Create a text input field.
- * @method  static  string                     textarea(string $name, string $value = null, array $options = array())    Create a textarea input field.
- * @method  static  string                     token()    Generate a hidden field with the current CSRF token.
+ * @method  static  string                        button(string $value = null, array $options = array())    Create a button element.
+ * @method  static  string                        checkbox(string $name, mixed $value = "1", bool $checked = null, array $options = array())    Create a checkbox input field.
+ * @method  static  string                        close()    Close the current form.
+ * @method  static  string                        email(string $name, string $value = null, array $options = array())    Create an e-mail input field.
+ * @method  static  string                        file(string $name, array $options = array())    Create a file input field.
+ * @method  static  \Illuminate\Session\Store     getSessionStore()    Get the session store implementation.
+ * @method  static  string                        hidden(string $name, string $value = null, array $options = array())    Create a hidden input field.
+ * @method  static  string                        input(string $type, string $name, string $value = null, array $options = array())    Create a form input field.
+ * @method  static  string                        label(string $name, string $value, array $options = array())    Create a form label element.
+ * @method  static  void                          macro(string $name, callable $macro)    Register a custom form macro.
+ * @method  static  string                        model(mixed $model, array $options = array())    Create a new model based form builder.
+ * @method  static  string                        open(array $options = array())    Open up a new HTML form.
+ * @method  static  string                        password(string $name, array $options = array())    Create a password input field.
+ * @method  static  string                        radio(string $name, mixed $value = null, bool $checked = null, array $options = array())    Create a radio button input field.
+ * @method  static  string                        select(string $name, array $list = array(), string $selected = null, array $options = array())    Create a select box field.
+ * @method  static  \Illuminate\Html\FormBuilder  setSessionStore(\Illuminate\Session\Store $session)    Set the session store implementation.
+ * @method  static  string                        submit(string $value = null, array $options = array())    Create a submit button element.
+ * @method  static  string                        text(string $name, string $value = null, array $options = array())    Create a text input field.
+ * @method  static  string                        textarea(string $name, string $value = null, array $options = array())    Create a textarea input field.
+ * @method  static  string                        token()    Generate a hidden field with the current CSRF token.
 */
 class Form extends Illuminate\Support\Facades\Form {}
 
@@ -398,14 +408,21 @@ class Form extends Illuminate\Support\Facades\Form {}
 */
 class Hash extends Illuminate\Support\Facades\Hash {}
 
-/** 'Html::' aliases 'Illuminate\Html\HtmlBuilder'
+/** 'Html::' aliases a facade that provides 'Illuminate\Html\HtmlBuilder'
  * @method  static  string  attributes(array $attributes)    Build an HTML attribute string from an array.
  * @method  static  string  decode(string $value)    Convert entities to HTML characters.
  * @method  static  string  entities(string $value)    Convert an HTML string to entities.
+ * @method  static  string  image(string $url, string $alt = null, array $attributes = array())    Generate an HTML image element.
+ * @method  static  string  link(string $url, string $title = null, array $attributes = array(), bool $secure = null)    Generate a HTML link.
+ * @method  static  string  linkAction(string $action, string $title = null, array $parameters = array(), array $attributes = array())    Generate a HTML link to a controller action.
+ * @method  static  string  linkAsset(string $url, string $title = null, array $attributes = array(), bool $secure = null)    Generate a HTML link to an asset.
+ * @method  static  string  linkRoute(string $name, string $title = null, array $parameters = array(), array $attributes = array())    Generate a HTML link to a named route.
+ * @method  static  string  linkSecureAsset(string $url, string $title = null, array $attributes = array())    Generate a HTTPS HTML link to an asset.
  * @method  static  string  ol(array $list, array $attributes = array())    Generate an ordered list of items.
+ * @method  static  string  secureLink(string $url, string $title = null, array $attributes = array())    Generate a HTTPS HTML link.
  * @method  static  string  ul(array $list, array $attributes = array())    Generate an un-ordered list of items.
 */
-class Html extends Illuminate\Html\HtmlBuilder {}
+class Html extends Illuminate\Support\Facades\Html {}
 
 /** 'Input::' aliases a facade that provides 'Illuminate\Http\Request'
  * @var  \Symfony\Component\HttpFoundation\ParameterBag  $attributes = null    
@@ -474,6 +491,7 @@ class Html extends Illuminate\Html\HtmlBuilder {}
  * @method  static  string                                               input(string $key = null, mixed $default = null)    Retrieve an input item from the request.
  * @method  static  \Illuminate\Http\Request                             instance()    Return the Request instance.
  * @method  static  bool                                                 is(string $pattern)    Determine if the current request URI matches a pattern.
+ * @method  static  bool                                                 isJson()    Determine if the request is sending JSON.
  * @method  static  Boolean                                              isMethod(string $method)    Checks if the request method is of specified type.
  * @method  static  Boolean                                              isMethodSafe()    Checks whether the method is safe or not.
  * @method  static  Boolean                                              isNoCache()    
@@ -554,6 +572,7 @@ class Mail extends Illuminate\Support\Facades\Mail {}
  * @method  static  int                                                 getCurrentPage()    Get the number of the current page.
  * @method  static  string                                              getCurrentUrl()    Get the root URL for the request.
  * @method  static  string                                              getLocale()    Get the locale of the paginator.
+ * @method  static  string                                              getPageName()    Get the input page parameter name used by the paginator.
  * @method  static  \Illuminate\View\View                               getPaginationView(\Illuminate\Pagination\Paginator $paginator)    Get the pagination view.
  * @method  static  \Symfony\Component\HttpFoundation\Request           getRequest()    Get the active request instance.
  * @method  static  \Symfony\Component\Translation\TranslatorInterface  getTranslator()    Get the translator instance.
@@ -563,6 +582,7 @@ class Mail extends Illuminate\Support\Facades\Mail {}
  * @method  static  void                                                setBaseUrl(string $baseUrl)    Set the base URL in use by the paginator.
  * @method  static  void                                                setCurrentPage(int $number)    Set the number of the current page.
  * @method  static  void                                                setLocale(string $locale)    Set the locale of the paginator.
+ * @method  static  void                                                setPageName(string $pageName)    Set the input page parameter name used by the paginator.
  * @method  static  void                                                setRequest(\Symfony\Component\HttpFoundation\Request $request)    Set the active request instance.
  * @method  static  void                                                setViewDriver(\Illuminate\View\Environment $view)    Set the current view driver.
  * @method  static  void                                                setViewName(string $viewName)    Set the name of the pagination view.
@@ -675,6 +695,7 @@ class Redis extends Illuminate\Support\Facades\Redis {}
  * @method  static  string                                               input(string $key = null, mixed $default = null)    Retrieve an input item from the request.
  * @method  static  \Illuminate\Http\Request                             instance()    Return the Request instance.
  * @method  static  bool                                                 is(string $pattern)    Determine if the current request URI matches a pattern.
+ * @method  static  bool                                                 isJson()    Determine if the request is sending JSON.
  * @method  static  Boolean                                              isMethod(string $method)    Checks if the request method is of specified type.
  * @method  static  Boolean                                              isMethodSafe()    Checks whether the method is safe or not.
  * @method  static  Boolean                                              isNoCache()    
@@ -783,6 +804,7 @@ class Schema extends Illuminate\Support\Facades\Schema {}
 /** 'Seeder::' aliases 'Illuminate\Database\Seeder'
  * @method  static  void  call(string $class)    Seed the given connection from the given path.
  * @method  static  void  run()    Run the database seeds.
+ * @method  static  void  setCommand(\Illuminate\Console\Command $command)    Set the console command instance.
  * @method  static  void  setContainer(\Illuminate\Container\Container $container)    Set the IoC container instance.
 */
 class Seeder extends Illuminate\Database\Seeder {}
