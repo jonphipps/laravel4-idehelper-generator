@@ -68,10 +68,8 @@ EOD;
 		$providers['Auth']      = 'Illuminate\Auth\Guard';
 		$providers['Cache']     = 'Illuminate\Cache\StoreInterface';
 		$providers['DB']        = 'Illuminate\Database\Connection';
-		$providers['Event']     = 'Illuminate\Events\Event';
 		$providers['Queue']     = 'Illuminate\Queue\QueueInterface';
 		$providers['Redis']     = 'Illuminate\Redis\Database';
-		$providers['Validator'] = 'Illuminate\Validation\Validator';
 
 		//this is the main parser
 		//it tries to find a class to reflect, then gets the public properties, gets the public methods
