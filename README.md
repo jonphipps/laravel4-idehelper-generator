@@ -1,5 +1,6 @@
 laravel4-idehelper-generator
 ============================
+It may be obvious from the lack of commits, but I'm not maintaining this at the moment. I would suggest that you use [barryvdh/laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) instead, since it basically does the same thing, although with slightly different results. 
 
 Generates a helper file to assist IDEs with code completion for Laravel 4 in PHPStorm, SublimeText 2, NetBeans (not tested), and maybe other dynamic codeintel IDEs.
 
